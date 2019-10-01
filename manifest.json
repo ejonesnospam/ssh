@@ -1,0 +1,8 @@
+{
+    "domain": "ssh",
+    "name": "SSH Client",
+    "documentation": "https://www.home-assistant.io/components/ssh",
+    "dependencies": [],
+    "codeowners": ["@ejonesnospam"],
+    "requirements": ["paramiko==2.6.0"]
+  }
