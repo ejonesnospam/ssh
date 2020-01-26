@@ -80,6 +80,10 @@ switch:
   (integer)(Optional) The port to ssh to
   Default value: 22
 
+**key**
+
+  (string)(Required) SSH remote host key to match.
+  
 **command**
 
   (string)(Required - Sensor Only) The command to execute on the remote server
