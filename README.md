@@ -16,8 +16,6 @@ To get started download
 /custom_components/ssh/manifest.json
 /custom_components/ssh/sensor.py
 /custom_components/ssh/switch.py
-
-
 ```
 into
 ```
@@ -31,6 +29,7 @@ sensor:
   - platform: ssh
     scan_interval: 3600
     host: 192.168.100.100
+    port: 2222
     name: 'My Sensor Name'
     username: !secret device-username
     password: !secret device-password
@@ -46,6 +45,7 @@ switch:
   - platform: ssh
     scan_interval: 3600
     host: 192.168.100.100
+    port: 2222
     name: 'My Switch Name'
     username: !secret device-username
     password: !secret device-password
