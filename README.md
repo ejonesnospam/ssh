@@ -98,7 +98,7 @@ switch:
   
 ### Considerations
 
-The sensor utilizes a paramiko client, a python implementation of the ssh2 library. Documentation can found at http://docs.paramiko.org/en/stable/api/client.html
+The sensor utilizes a paramiko client, a python implementation of the ssh v2 library. Documentation can found at http://docs.paramiko.org/en/stable/api/client.html
 
 A sensor value can only by a maximum of 256 characters in length, therefore make use of the value_template to parse data larger than this.
 
