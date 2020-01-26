@@ -3,8 +3,8 @@ Support for SSH access.
 
 For more details about this platform, please refer to the documentation at
 https://github.com/custom-components/switch.ssh
-
 """
+
 import base64
 import paramiko
 import logging
@@ -22,7 +22,7 @@ from homeassistant.const import (
     CONF_VALUE_TEMPLATE, CONF_PORT,
     STATE_UNKNOWN, CONF_UNIT_OF_MEASUREMENT)
 
-__version__ = '0.2.1'
+__version__ = '0.2.2'
 
 _LOGGER = logging.getLogger(__name__)
 DOMAIN = 'switch'
@@ -38,7 +38,6 @@ CONF_COMMAND_OFF = 'command_off'
 CONF_COMMAND_STATUS = 'command_status'
 
 MIN_TIME_BETWEEN_UPDATES = timedelta(seconds=30)
-
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
@@ -80,9 +79,6 @@ class SSHSwitch(Entity):
         self._connected = False
         self._attributes = {}
 
-        """Connect to remote ssh server"""
-        self._connect()
-
         if self._value_template is not None:
             self._value_template.hass = hass
 
@@ -112,7 +108,7 @@ class SSHSwitch(Entity):
         return self._attributes
 
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
-    def update(self):
+    def update(self, **kwargs):
         from paramiko import ssh_exception
 
         try:
@@ -134,7 +130,6 @@ class SSHSwitch(Entity):
 
             _LOGGER.debug(self._state)
 
-
         except Exception as err:
             _LOGGER.error("Update error: %s", str(err))
             self._disconnect()
@@ -142,12 +137,12 @@ class SSHSwitch(Entity):
     async def async_turn_on(self, **kwargs):
         """Instruct the switch to turn on."""
         self._state = "on"
-        self.hass.async_add_executor_job(self._execute(self._command_on))
+        self._execute(self._command_on)
 
     async def async_turn_off(self, **kwargs):
         """Instruct the switch to turn off."""
         self._state = "off"
-        self.hass.async_add_executor_job(self._execute(self._command_off))
+        self._execute(self._command_off)
 
     def _execute(self, command):
         """Execute remote command."""
@@ -163,7 +158,7 @@ class SSHSwitch(Entity):
                 return None
 
             """
-            Option 1:
+            Option 1: 
             """
             stdin, stdout, stderr = self._ssh.exec_command(cmd)
 
@@ -219,5 +214,4 @@ class SSHSwitch(Entity):
             self._ssh = None
 
         self._connected = False
-
 
