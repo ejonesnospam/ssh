@@ -54,7 +54,7 @@ switch:
     command_off: 'echo off'
     command_status: 'echo off'
 
-
+NOTE: Above Switch example will always indicate off, since status command's return value will equal 'off'
 
 ```
 ### Configuration Variables
