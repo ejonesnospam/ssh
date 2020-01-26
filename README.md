@@ -1,6 +1,8 @@
 # sensor.ssh
 Generic SSH based sensor and switch for Home Assistant
-     
+
+
+
 Sensor:
 Login to a remote server via ssh, execute a command and retrieve the result as sensor value
 
