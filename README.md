@@ -1,30 +1,90 @@
-# ssh
-Home Assistant Component SSH - 'Switch' and 'Sensor' Entities
+# sensor.ssh
+Generic SSH based sensor and switch for Home Assistant
+     
+Sensor:
+Login to a remote server via ssh, execute a command and retrieve the result as sensor value
+
+Switch:
+Login to a remote server via ssh, execute specific remote commands to perform switch on, off, and status commands
 
 
-######### Still in work ################
-
-## Future
--- Develop common ssh codebase for sensor and switch
-
-## Based on the SSH Sensor, developed by John Chasey, 
-https://github.com/custom-components/sensor.ssh
-https://community.home-assistant.io/t/ssh-sensor/75229
+To get started download
+```
+/custom_components/ssh/__init__.py
+/custom_components/ssh/manifest.json
+/custom_components/ssh/sensor.py
+/custom_components/ssh/switch.py
 
 
-## Sample Configuration.yaml entry
+```
+into
+```
+<config directory>/custom_components/ssh/
+```
+
+**Example configuration.yaml:**
+
+```yawl
+sensor:
+  - platform: ssh
+    scan_interval: 3600
+    host: 192.168.100.100
+    name: 'My Sensor Name'
+    username: !secret device-username
+    password: !secret device-password
+    key: !secret REALLY-LONG-SSH-HASH
+    command: "sensors | grep 'Package id 0:' | cut -c17-20"
+    value_template: >-
+        {%- set line = value.split("\r\n") -%}
+        {{ line[1] }}
+    unit_of_measurement: "ºC"
+
 
 switch:
-  - platform: ssh2
-    host: 192.168.0.1
-    name: 'SSH Switch 1'
-    username: !secret username
-    password: !secret password
-    key: !secret debx64a-1-key
-    command_on: 'touch "/tmp/junk.tmp"'
-    command_off: 'rm "/tmp/junk.tmp"'
-    command_status: '[ -e "/tmp/junk.tmp" ] && echo on || echo off'
+  - platform: ssh
+    scan_interval: 3600
+    host: 192.168.100.100
+    name: 'My Switch Name'
+    username: !secret device-username
+    password: !secret device-password
+    key: !secret REALLY-LONG-SSH-HASH
+    command_on: '/usr/local/sbin/remote-command'
+    command_off: 'echo off'
+    command_status: 'echo off'
 
 
 
-##
+```
+### Configuration Variables
+
+**name**
+
+  (string)(Optional) Friendly name of the sensor
+
+**host**
+
+  (string)(Required) The hostname or IP address of the remote server
+
+**username**
+
+  (string)(Required) A user on the remote server
+  
+**password**
+
+(string)(Required) The password for the account
+
+**port**
+
+  (integer)(Optional) The port to ssh to
+  Default value: 22
+
+**command**
+
+  (string)(Required) The command to execute on the remote server
+  
+### Considerations
+
+The sensor utilises the paramiko ssh library.
+
+A sensor value can only by a maximum of 256 characters in length, therefore make use of the value_template to parse data larger than this.
+
