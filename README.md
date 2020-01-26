@@ -82,7 +82,19 @@ switch:
 
 **command**
 
-  (string)(Required) The command to execute on the remote server
+  (string)(Required - Sensor Only) The command to execute on the remote server
+
+**command_on**
+
+  (string)(Required - Switch Only) The command to execute on the remote server when the switch is activated
+  
+**command_off**
+
+  (string)(Required - Switch Only) The command to execute on the remote server when the switch is deactivated
+
+**command_status**
+
+  (string)(Required - Switch Only) The command to execute on the remote server to determine switch on/off status
   
 ### Considerations
 
