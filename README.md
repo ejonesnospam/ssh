@@ -1,6 +1,7 @@
 # sensor.ssh
 Generic SSH based sensor and switch for Home Assistant
 
+- Tested and verified using Home Assistant 0.103.6
 
 
 Sensor:
